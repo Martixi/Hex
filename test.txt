@@ -1,0 +1,11 @@
+
+          ---
+       --< r >--
+    --<   >-<   >--
+ --< b >-<   >-< r >--
+< b >-< r >-< b >-< r >
+ --< b >-< b >-< r >--
+    --< b >-< r >--
+       --< r >--
+          ---
+CAN_BLUE_WIN_IN_2_MOVES_WITH_PERFECT_OPPONENT
