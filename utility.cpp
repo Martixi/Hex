@@ -213,11 +213,11 @@ bool isPathPossibleInN(board board, char **pawns, char player, int moves){
 		for (int j = 0; j < board.size; ++j) {
 			if (pawns[i][j] == ' '){
 				pawns[i][j] = player;
-				if (moves > 1 and ((player == 'r' and didRedWin(board, pawns)) or (player == 'b' and didBlueWin(board, pawns)))) {
-					pawns[i][j] = ' ';
-					continue;
-				}
 				if (moves != 1){
+					if ((player == 'r' and didRedWin(board, pawns)) or (player == 'b' and didBlueWin(board, pawns))) {
+						pawns[i][j] = ' ';
+						continue;
+					}
 					if (isPathPossibleInN(board, pawns, player, moves - 1)) {
 						pawns[i][j] = ' ';
 						return true;
@@ -248,26 +248,25 @@ bool isPathPossibleInP(board board, char whoStarts, char **pawns, char player, i
 			for (int j = 0; j < board.size; ++j) {
 				if (pawns[i][j] == ' ') {
 					pawns[i][j] = player;
-				}
-				if (movesP > 1 and ((player == 'r' and didRedWin(board, pawns)) or (player == 'b' and didBlueWin(board, pawns)))) {
-					pawns[i][j] = ' ';
-					continue;
-				}
-				if (movesP != 1){
-					if (isPathPossibleInP(board, movement, pawns, player, movesP - 1, movesO)) {
+					if (movesP != 1) {
+						if ((player == 'r' and didRedWin(board, pawns)) or (player == 'b' and didBlueWin(board, pawns))) {
+							pawns[i][j] = ' ';
+							continue;
+						}
+						if (isPathPossibleInP(board, movement, pawns, player, movesP - 1, movesO)) {
+							pawns[i][j] = ' ';
+							return true;
+						} else {
+							pawns[i][j] = ' ';
+							continue;
+						}
+					}
+					if ((player == 'r' and didRedWin(board, pawns)) or (player == 'b' and didBlueWin(board, pawns))) {
 						pawns[i][j] = ' ';
 						return true;
 					} else {
 						pawns[i][j] = ' ';
-						continue;
 					}
-				}
-				if ((player == 'r' and didRedWin(board, pawns)) or (player == 'b' and didBlueWin(board, pawns))) {
-					pawns[i][j] = ' ';
-					return true;
-				} else {
-					pawns[i][j] = ' ';
-					return false;
 				}
 			}
 		}
@@ -277,16 +276,11 @@ bool isPathPossibleInP(board board, char whoStarts, char **pawns, char player, i
 			for (int j = 0; j < board.size; ++j) {
 				if (pawns[i][j] == ' ') {
 					pawns[i][j] = movement;
-				}
-				if (movesO > 1 and ((movement == 'r' and didRedWin(board, pawns)) or (movement == 'b' and didBlueWin(board, pawns)))) {
-					pawns[i][j] = ' ';
-					continue;
-				}
-				if ((movement == 'r' and didRedWin(board, pawns)) or (movement == 'b' and didBlueWin(board, pawns))) {
-					pawns[i][j] = ' ';
-					return false;
-				}
-				if (movesO != 1){
+//					if ((movement == 'r' and didRedWin(board, pawns)) or
+//					    (movement == 'b' and didBlueWin(board, pawns))) {
+//						pawns[i][j] = ' ';
+//						return false;
+//					}
 					if (!isPathPossibleInP(board, movement, pawns, player, movesP, movesO - 1)) {
 						pawns[i][j] = ' ';
 						return false;

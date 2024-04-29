@@ -144,9 +144,13 @@ bool perfectOponent(board board, char **pawns, char player, int moves) {
 	for (int i = 0; i < 15; ++i) {
 		cin.ignore();
 	}
+	if (player == 'r' and board.pawnsR + moves < board.size) return false;
+	if (player == 'b' and board.pawnsB + moves < board.size) return false;
+
 	if (!isBoardPossible(board, pawns)) return false;
 	if (didRedWin(board, pawns) or didBlueWin(board, pawns)) return false;
 	if (player == 'r') {
+		if (board.pawnsR < board.size - 3) return false;
 		if (board.pawnsR == board.pawnsB) {
 			first = 'b';
 			if (moves == 1) emptySlots = 1, movesO = 0;
@@ -157,6 +161,7 @@ bool perfectOponent(board board, char **pawns, char player, int moves) {
 			else emptySlots = 4, movesO = 2;
 		}
 	} else {
+		if (board.pawnsB < board.size - 3) return false;
 		if (board.pawnsR == board.pawnsB) {
 			first = 'b';
 			if (moves == 1) emptySlots = 2, movesO = 1;
@@ -174,6 +179,8 @@ bool perfectOponent(board board, char **pawns, char player, int moves) {
 		}
 	}
 	if (count < emptySlots) return false;
+	if (movesO == 0) return isPathPossibleInN(board, pawns, player, moves);
+	if (!isPathPossibleInN(board, pawns, player, moves)) return false;
 	return isPathPossibleInP(board,first, pawns, player, moves, movesO);
 
 }
